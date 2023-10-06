@@ -15,7 +15,7 @@ function Project(title, dueDate, description, priority, notes) {
         description,
         priority,
         notes,
-        todos: ['Todo 1', 'Todo 2', 'Todo 3']
+        todos: {'Todo 1': false, 'Todo 2': true, 'Todo 3':false}
     }
 }
 
@@ -26,18 +26,23 @@ function addProject(info) {
 }
 
 function addTodo(id, todo) {
-    getProjectByID(id).todos.push(todo);
+    getProjectByID(id).todos[todo] = false;
 }
 
 function removeTodo(id, todo) {
     const project = getProjectByID(id);
-    const index = project.todos.indexOf(todo);
-    project.todos.splice(index, 1);
+    // const index = project.todos[todo];
+    delete project.todos[todo]
+    // project.todos.splice(index, 1);
 }
 
-
-// function getProjects() {
-//     return projects;
+// function moveTodoUp(id, todo) {
+//     const project = getProjectByID(id);
+//     const index = project.todos.indexOf(todo);
+//     if (index != 0) {
+//         project.todos.splice(index, 1);
+//         project.todos.splice(index - 1, 0, todo);
+//     }
 // }
 
 function getLandingContent() {

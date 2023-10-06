@@ -66,6 +66,24 @@ function displaySingleProject(id) {
             }
         }
     })
+    // const moveTodoUpButton = document.querySelector('#move-todo-up-button');
+    // moveTodoUpButton.addEventListener('click', () => {
+    //     const checkList = document.querySelector('.check-list');
+    //     for (const inputDiv of checkList.children) {
+    //         if (inputDiv.querySelector('input').checked) {
+    //             moveTodoUp(id, inputDiv.querySelector('input').value);
+    //             displayTodos(id);
+    //             // displaySingleProject(id);
+    //             console.log(inputDiv);
+    //             // inputDiv.querySelector('input').checked = true;
+    //         }
+    //     }
+    // })
+}
+
+function displayTodos() {
+    const todoDivs = [...document.querySelector('.check-list').children];
+    console.log(todoDivs[0]);
 }
 
 function clearContent() {

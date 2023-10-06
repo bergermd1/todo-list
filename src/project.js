@@ -16,7 +16,7 @@ function getCheckListContainerDiv(project) {
     checkList.legend = 'Check list';
     checkList.classList.add('check-list');
     checkListContainer.appendChild(checkList);
-    project.todos.forEach((todo) => {
+    for (const todo in project.todos) {
         const inputContainer = document.createElement('div');
 
         const label = document.createElement('label');
@@ -37,7 +37,7 @@ function getCheckListContainerDiv(project) {
         inputContainer.appendChild(label);
 
         checkList.appendChild(inputContainer);
-    })
+    }
 
     return checkListContainer;
 }
@@ -94,9 +94,14 @@ function getButtonsContainer() {
     removeTodoButton.id = 'remove-todo-button';
     removeTodoButton.textContent = 'Remove todo'
 
+    const moveTodoUpButton = document.createElement('button');
+    moveTodoUpButton.id = 'move-todo-up-button';
+    moveTodoUpButton.textContent = 'Move up';
+
     buttonsContainer.appendChild(returnButton);
     buttonsContainer.appendChild(addTodoButton);
     buttonsContainer.appendChild(removeTodoButton);
+    buttonsContainer.appendChild(moveTodoUpButton);
 
     return buttonsContainer;
 }
