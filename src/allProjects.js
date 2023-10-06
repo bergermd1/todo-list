@@ -5,18 +5,22 @@ let currentID = 0;
 //const sortOrder = 0;
 
 
-function Project(title, description) {
+function Project(title, dueDate, description, priority, notes) {
     const id = currentID;
     currentID++;
     return {
         id,
         title,
-        description
+        dueDate,
+        description,
+        priority,
+        notes,
+        todos: ['Task 1', 'Task 2', 'Task 3']
     }
 }
 
 function addProject(info) {
-    const project = new Project(info.title, info.description)
+    const project = new Project(info.title, info.dueDate, info.description, info.priority, info.notes);
     projects.push(project);
     return project;
 }
@@ -26,7 +30,7 @@ function getProjects() {
 }
 
 function getLandingContent() {
-    const emptyProject = new Project('Blank title', "Blank description");
+    const emptyProject = new Project('Blank project', "12/31/2023", 'Blank description', 0, '');
     projects.push(emptyProject);
     return getDiv(emptyProject);
 }
@@ -59,8 +63,8 @@ function getDiv(project) {
     const titleP = document.createElement('p');
     titleP.textContent = project.title;
 
-    const descriptionP = document.createElement('p');
-    descriptionP.textContent = project.description;
+    const dueDateP = document.createElement('p');
+    dueDateP.textContent = project.dueDate;
 
     const viewBtn = document.createElement('button');
     viewBtn.textContent = 'View Project';
@@ -70,7 +74,7 @@ function getDiv(project) {
     removeBtn.classList.add('removeBtn')
 
     projectDiv.appendChild(titleP);
-    projectDiv.appendChild(descriptionP);
+    projectDiv.appendChild(dueDateP);
     projectDiv.appendChild(viewBtn);
     projectDiv.appendChild(removeBtn);
 

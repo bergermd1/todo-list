@@ -8,3 +8,17 @@
     display: inline-block;
     padding: 10px;
 }
+
+.project-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border: solid;
+}
+
+.check-list-container {
+    border: solid thin;
+}
+
+.details > li {
+    margin-left: 20px;
+}
