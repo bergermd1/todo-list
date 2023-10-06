@@ -16,11 +16,11 @@ function getCheckListContainerDiv(project) {
     checkList.legend = 'Check list';
     checkList.classList.add('check-list');
     checkListContainer.appendChild(checkList);
-    for (const todo in project.todos) {
+    project.todos.forEach(todo => {
         const inputContainer = document.createElement('div');
 
         const label = document.createElement('label');
-        label.textContent = todo;
+        label.textContent = Object.keys(todo)[0];
         label.addEventListener('click', () => {
             if (([...label.classList].includes('strike'))) {
                 label.classList.remove('strike');
@@ -30,14 +30,14 @@ function getCheckListContainerDiv(project) {
         })
         const input = document.createElement('input');
         input.type = 'radio';
-        input.value = todo;
+        input.value = Object.keys(todo)[0];;
         input.name = 'todos';
 
         inputContainer.appendChild(input);
         inputContainer.appendChild(label);
 
         checkList.appendChild(inputContainer);
-    }
+    });
 
     return checkListContainer;
 }

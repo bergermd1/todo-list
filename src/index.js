@@ -52,6 +52,7 @@ function displaySingleProject(id) {
     });
     const addTodoButton = document.querySelector('#add-todo-button');
     addTodoButton.addEventListener('click', () => {
+        
         const todo = window.prompt("Enter new todo");
         addTodo(id, todo);
         displaySingleProject(id);
@@ -61,8 +62,9 @@ function displaySingleProject(id) {
         const checkList = document.querySelector('.check-list');
         for (const inputDiv of checkList.children) {
             if (inputDiv.querySelector('input').checked) {
+                const value = inputDiv.querySelector('input').value;
                 inputDiv.remove();
-                removeTodo(id, inputDiv.querySelector('input').value);
+                removeTodo(id, value);
             }
         }
     })
@@ -79,11 +81,13 @@ function displaySingleProject(id) {
     //         }
     //     }
     // })
+    
+    console.log(getProjectByID(id));
 }
 
 function displayTodos() {
     const todoDivs = [...document.querySelector('.check-list').children];
-    console.log(todoDivs[0]);
+    // console.log(todoDivs[0]);
 }
 
 function clearContent() {
