@@ -1,5 +1,5 @@
 import './style.css';
-import {getLandingContent, addProject, getProjectNodes} from './allProjects.js';
+import {getLandingContent, addProject, getProjectNodes, removeProject} from './allProjects.js';
 
 
 window.onload = () => {
@@ -14,15 +14,23 @@ window.onload = () => {
 }
 
 function displayProjects() {
-    document.querySelector('.projects-container').innerHTML = '';
+    clearContent();
     const projectNodes = getProjectNodes();
-    // console.log(projectNodes[0]);
     projectNodes.forEach(node => {
         document.querySelector('.projects-container').appendChild(node);
+        node.querySelector('.removeBtn').addEventListener('click', () => {
+            removeProject(node.getAttribute('data-id'));
+            displayProjects();
+        });
+        node.querySelector('.viewBtn').addEventListener('click', () => {
+            clearContent();
+            // displaySingleProject(node.getAttribute('data-id'));
+        });
     });
-    // document.querySelector('div').addEventListener('click', () => alert('project clicked'));
-    // const projects = document.querySelectorAll('.projects-container>div');
+}
 
+function clearContent() {
+    document.querySelector('.projects-container').innerHTML = '';
 }
 
 function getAddProjectButton() {
@@ -34,7 +42,6 @@ function getAddProjectButton() {
         info.description = window.prompt("Description?");
         const project = addProject(info);
         displayProjects();
-        // console.log(project);
     })
     return button;
 }
