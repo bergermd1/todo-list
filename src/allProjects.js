@@ -1,4 +1,4 @@
-export {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID};
+export {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID, addTodo};
 
 const projects = [];
 let currentID = 0;
@@ -15,7 +15,7 @@ function Project(title, dueDate, description, priority, notes) {
         description,
         priority,
         notes,
-        todos: ['Task 1', 'Task 2', 'Task 3']
+        todos: ['Todo 1', 'Todo 2', 'Todo 3']
     }
 }
 
@@ -23,6 +23,10 @@ function addProject(info) {
     const project = new Project(info.title, info.dueDate, info.description, info.priority, info.notes);
     projects.push(project);
     return project;
+}
+
+function addTodo(id, todo) {
+    getProjectByID(id).todos.push(todo);
 }
 
 function getProjects() {

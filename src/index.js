@@ -1,5 +1,5 @@
 import './style.css';
-import {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID} from './allProjects.js';
+import {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID, addTodo} from './allProjects.js';
 import {getSingleProjectDivs} from './project.js';
 
 window.onload = () => {
@@ -26,20 +26,30 @@ function displayProjects() {
             displayProjects();
         });
         node.querySelector('.viewBtn').addEventListener('click', () => {
-            document.querySelector('#add-project-button').style.display = 'none';
-            clearContent();
-            const projectDivs = getSingleProjectDivs(getProjectByID(node.getAttribute('data-id')));
-            projectDivs.forEach(div => {
-                console.log(div);
-                document.querySelector('.project-container').appendChild(div);
-            });
-            const returnButton = document.querySelector('#return-button');
-            returnButton.addEventListener('click', () => {
-                document.querySelector('#add-project-button').style.display = 'block';
-                displayProjects();
-            });
+            displaySingleProject(node.getAttribute('data-id'));
         });
     });
+}
+
+function displaySingleProject(id) {
+    document.querySelector('#add-project-button').style.display = 'none';
+    clearContent();
+    const projectDivs = getSingleProjectDivs(getProjectByID(id));
+    projectDivs.forEach(div => {
+        console.log(div);
+        document.querySelector('.project-container').appendChild(div);
+    });
+    const returnButton = document.querySelector('#return-button');
+    returnButton.addEventListener('click', () => {
+        document.querySelector('#add-project-button').style.display = 'block';
+        displayProjects();
+    });
+    const addTodoButton = document.querySelector('#add-todo-button');
+    addTodoButton.addEventListener('click', () => {
+        const todo = window.prompt("Enter new todo");
+        addTodo(id, todo);
+        displaySingleProject(id);
+    })
 }
 
 function clearContent() {

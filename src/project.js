@@ -69,15 +69,15 @@ function getButtonsContainer() {
     returnButton.id = 'return-button';
     returnButton.textContent = 'Return to projects page'
 
-    const addTaskButton = document.createElement('button');
-    addTaskButton.id = 'add-task-button';
-    addTaskButton.textContent = 'Add task'
-    addTaskButton.addEventListener('click', () => {
+    const addTodoButton = document.createElement('button');
+    addTodoButton.id = 'add-todo-button';
+    addTodoButton.textContent = 'Add todo'
+    addTodoButton.addEventListener('click', () => {
         
     });
 
     buttonsContainer.appendChild(returnButton);
-    buttonsContainer.appendChild(addTaskButton);
+    buttonsContainer.appendChild(addTodoButton);
 
     return buttonsContainer;
 }
