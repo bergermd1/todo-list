@@ -1,16 +1,12 @@
-export {getSingleProjectDiv};
+export {getSingleProjectDivs};
 
-function getSingleProjectDiv(project) {
-    const projectContainer = document.createElement('div');
-    projectContainer.classList.add('project-container');
+function getSingleProjectDivs(project) {
     
     const checkListContainer = getCheckListContainerDiv(project);
     const detailsContainer = getDetailsContainerDiv(project);
-    
-    projectContainer.appendChild(checkListContainer)
-    projectContainer.appendChild(detailsContainer)
-    
-    return projectContainer;
+    const buttonsContainer = getButtonsContainer();
+
+    return [checkListContainer, detailsContainer, buttonsContainer]
 }
 
 function getCheckListContainerDiv(project) {
@@ -62,4 +58,26 @@ function getDetails(project) {
     }
 
     return liList;
+}
+
+
+function getButtonsContainer() {
+    const buttonsContainer = document.createElement('div');
+    buttonsContainer.classList.add('buttons-container');
+
+    const returnButton = document.createElement('button');
+    returnButton.id = 'return-button';
+    returnButton.textContent = 'Return to projects page'
+
+    const addTaskButton = document.createElement('button');
+    addTaskButton.id = 'add-task-button';
+    addTaskButton.textContent = 'Add task'
+    addTaskButton.addEventListener('click', () => {
+        
+    });
+
+    buttonsContainer.appendChild(returnButton);
+    buttonsContainer.appendChild(addTaskButton);
+
+    return buttonsContainer;
 }
