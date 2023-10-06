@@ -1,4 +1,4 @@
-export {getLandingContent, addProject, getProjectNodes, removeProject};
+export {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID};
 
 const projects = [];
 let currentID = 0;
@@ -40,11 +40,15 @@ function getProjectNodes() {
 }
 
 function removeProject(id) {
-    const index = projects.indexOf(projects.filter(project => project.id == id)[0]);
+    const index = projects.indexOf(getProjectByID(id));
     console.log(index);
     console.log(projects.filter(project => project.id == id));
     console.log(projects[0]);
     projects.splice(index, 1);
+}
+
+function getProjectByID(id) {
+    return projects.filter(project => project.id == id)[0];
 }
 
 function getDiv(project) {

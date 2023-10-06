@@ -1,11 +1,11 @@
 import './style.css';
-import {getLandingContent, addProject, getProjectNodes, removeProject} from './allProjects.js';
-
+import {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID} from './allProjects.js';
+import {getSingleProjectDiv} from './project.js';
 
 window.onload = () => {
     document.querySelector('#content').appendChild(getAddProjectButton());
-    const projectsContainer = document.createElement('div');
     
+    const projectsContainer = document.createElement('div');
     projectsContainer.classList.add('projects-container');
     document.querySelector('#content').appendChild(projectsContainer)
 
@@ -23,8 +23,11 @@ function displayProjects() {
             displayProjects();
         });
         node.querySelector('.viewBtn').addEventListener('click', () => {
+            document.querySelector('#add-project-button').style.display = 'none';
+            // console.log(document.querySelector('#add-project-button'));
             clearContent();
-            // displaySingleProject(node.getAttribute('data-id'));
+            const projectDiv = getSingleProjectDiv(getProjectByID(node.getAttribute('data-id')));
+            document.querySelector('#content').appendChild(projectDiv);
         });
     });
 }
@@ -35,6 +38,7 @@ function clearContent() {
 
 function getAddProjectButton() {
     const button = document.createElement('button');
+    button.id = 'add-project-button';
     button.textContent = 'Add new project';
     button.addEventListener('click', () => {
         const info = {};
