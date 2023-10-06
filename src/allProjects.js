@@ -1,4 +1,4 @@
-export {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID, addTodo};
+export {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID, addTodo, removeTodo};
 
 const projects = [];
 let currentID = 0;
@@ -29,9 +29,16 @@ function addTodo(id, todo) {
     getProjectByID(id).todos.push(todo);
 }
 
-function getProjects() {
-    return projects;
+function removeTodo(id, todo) {
+    const project = getProjectByID(id);
+    const index = project.todos.indexOf(todo);
+    project.todos.splice(index, 1);
 }
+
+
+// function getProjects() {
+//     return projects;
+// }
 
 function getLandingContent() {
     const emptyProject = new Project('Blank project', "12/31/2023", 'Blank description', 0, '');
@@ -49,9 +56,6 @@ function getProjectNodes() {
 
 function removeProject(id) {
     const index = projects.indexOf(getProjectByID(id));
-    console.log(index);
-    console.log(projects.filter(project => project.id == id));
-    console.log(projects[0]);
     projects.splice(index, 1);
 }
 

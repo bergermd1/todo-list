@@ -1,5 +1,5 @@
 import './style.css';
-import {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID, addTodo} from './allProjects.js';
+import {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID, addTodo, removeTodo} from './allProjects.js';
 import {getSingleProjectDivs} from './project.js';
 
 window.onload = () => {
@@ -33,15 +33,21 @@ function displayProjects() {
 
 function displaySingleProject(id) {
     document.querySelector('#add-project-button').style.display = 'none';
+    document.querySelector('.project-container').style.display = 'grid';
     clearContent();
+    const header = document.createElement('h2');
+    header.classList.add('project-header');
+    header.textContent = getProjectByID(id).title;
+    document.querySelector('.project-container').appendChild(header);
+    
     const projectDivs = getSingleProjectDivs(getProjectByID(id));
     projectDivs.forEach(div => {
-        console.log(div);
         document.querySelector('.project-container').appendChild(div);
     });
     const returnButton = document.querySelector('#return-button');
     returnButton.addEventListener('click', () => {
         document.querySelector('#add-project-button').style.display = 'block';
+        document.querySelector('.project-container').style.display = 'none';
         displayProjects();
     });
     const addTodoButton = document.querySelector('#add-todo-button');
@@ -49,6 +55,16 @@ function displaySingleProject(id) {
         const todo = window.prompt("Enter new todo");
         addTodo(id, todo);
         displaySingleProject(id);
+    })
+    const removeTodoButton = document.querySelector('#remove-todo-button');
+    removeTodoButton.addEventListener('click', () => {
+        const checkList = document.querySelector('.check-list');
+        for (const inputDiv of checkList.children) {
+            if (inputDiv.querySelector('input').checked) {
+                inputDiv.remove();
+                removeTodo(id, inputDiv.querySelector('input').value);
+            }
+        }
     })
 }
 
@@ -65,6 +81,9 @@ function getAddProjectButton() {
         const info = {};
         info.title = window.prompt("Title?");
         info.description = window.prompt("Description?");
+        info.dueDate = window.prompt("Due date?");
+        info.priority = window.prompt("Priority?");
+        info.notes = window.prompt("Notes?");
         const project = addProject(info);
         displayProjects();
     })
