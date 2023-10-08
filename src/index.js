@@ -1,5 +1,5 @@
 import './style.css';
-import {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID, addTodo, removeTodo} from './allProjects.js';
+import {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID, addTodo, removeTodo, moveTodoUp, moveTodoDown} from './allProjects.js';
 import {getSingleProjectDivs} from './project.js';
 
 window.onload = () => {
@@ -68,26 +68,49 @@ function displaySingleProject(id) {
             }
         }
     })
-    // const moveTodoUpButton = document.querySelector('#move-todo-up-button');
-    // moveTodoUpButton.addEventListener('click', () => {
-    //     const checkList = document.querySelector('.check-list');
-    //     for (const inputDiv of checkList.children) {
-    //         if (inputDiv.querySelector('input').checked) {
-    //             moveTodoUp(id, inputDiv.querySelector('input').value);
-    //             displayTodos(id);
-    //             // displaySingleProject(id);
-    //             console.log(inputDiv);
-    //             // inputDiv.querySelector('input').checked = true;
-    //         }
-    //     }
-    // })
+
+    const moveTodoUpButton = document.querySelector('#move-todo-up-button');
+    moveTodoUpButton.addEventListener('click', () => {
+        const checkList = document.querySelector('.check-list');
+        let checkedItemIndex;
+        [...checkList.children].forEach((inputDiv, index) => {
+            if (inputDiv.querySelector('input').checked) {
+                checkedItemIndex = index;
+                moveTodoUp(id, index);
+                displaySingleProject(id);
+            }
+        });
+        document.querySelector(`.check-list>div:nth-child(${Math.max(checkedItemIndex, 1)})>input`).checked = true;
+    })
     
-    console.log(getProjectByID(id));
+    const moveTodoDownButton = document.querySelector('#move-todo-down-button');
+    moveTodoDownButton.addEventListener('click', () => {
+        const checkList = document.querySelector('.check-list');
+        let checkedItemIndex;
+        [...checkList.children].forEach((inputDiv, index) => {
+            if (inputDiv.querySelector('input').checked) {
+                checkedItemIndex = index;
+                moveTodoDown(id, index);
+                displaySingleProject(id);
+            }
+        });
+        document.querySelector(`.check-list>div:nth-child(${Math.min(checkedItemIndex + 2, [...checkList.children].length)})>input`).checked = true;
+    })
+    restrikeItems(id);
+}
+
+function restrikeItems(id) {
+    let divs = document.querySelectorAll('.check-list>div');
+    const project = getProjectByID(id);
+    [...divs].forEach((div, index) => {
+        if (Object.values(project.todos[index])[0]) {
+            divs[index].querySelector('label').classList.add('strike');
+        }
+    });
 }
 
 function displayTodos() {
     const todoDivs = [...document.querySelector('.check-list').children];
-    // console.log(todoDivs[0]);
 }
 
 function clearContent() {

@@ -10,13 +10,13 @@ function getSingleProjectDivs(project) {
 }
 
 function getCheckListContainerDiv(project) {
-    const checkListContainer = document.createElement('div');
+    const checkListContainer = document.createElement('form');
     checkListContainer.classList.add('check-list-container');
     const checkList = document.createElement('fieldset');
     checkList.legend = 'Check list';
     checkList.classList.add('check-list');
     checkListContainer.appendChild(checkList);
-    project.todos.forEach(todo => {
+    project.todos.forEach((todo, index) => {
         const inputContainer = document.createElement('div');
 
         const label = document.createElement('label');
@@ -24,8 +24,10 @@ function getCheckListContainerDiv(project) {
         label.addEventListener('click', () => {
             if (([...label.classList].includes('strike'))) {
                 label.classList.remove('strike');
+                project.todos[index][label.textContent] = false;
             } else {
                 label.classList.add('strike');
+                project.todos[index][label.textContent] = true;
             }
         })
         const input = document.createElement('input');
@@ -73,7 +75,6 @@ function getDetails(project) {
         item.textContent = lineItems[key] + ": " + project[key];
         liList.push(item);
     }
-
     return liList;
 }
 
@@ -97,11 +98,16 @@ function getButtonsContainer() {
     const moveTodoUpButton = document.createElement('button');
     moveTodoUpButton.id = 'move-todo-up-button';
     moveTodoUpButton.textContent = 'Move up';
-
+    
+    const moveTodoDownButton = document.createElement('button');
+    moveTodoDownButton.id = 'move-todo-down-button';
+    moveTodoDownButton.textContent = 'Move down';
+    
     buttonsContainer.appendChild(returnButton);
     buttonsContainer.appendChild(addTodoButton);
     buttonsContainer.appendChild(removeTodoButton);
     buttonsContainer.appendChild(moveTodoUpButton);
+    buttonsContainer.appendChild(moveTodoDownButton);
 
     return buttonsContainer;
 }

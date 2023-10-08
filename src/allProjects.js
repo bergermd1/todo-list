@@ -1,4 +1,4 @@
-export {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID, addTodo, removeTodo};
+export {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID, addTodo, removeTodo, moveTodoUp, moveTodoDown};
 
 const projects = [];
 let currentID = 0;
@@ -15,8 +15,7 @@ function Project(title, dueDate, description, priority, notes) {
         description,
         priority,
         notes,
-        // todos: {'Todo 1': [false, 0], 'Todo 2': [true, 1], 'Todo 3': [false, 2]}
-        todos: [{'Todo 1': false}, {'Todo 2': true}, {'Todo 3': false}]
+        todos: [{'Todo 1': false}, {'Todo 2': false}, {'Todo 3': false}]
     }
 }
 
@@ -31,23 +30,29 @@ function addTodo(id, todo) {
 }
 
 function removeTodo(id, todoToRemove) {
-    
     const project = getProjectByID(id);
-    console.log(project.todos);
     project.todos = project.todos.filter(todo => {
         return Object.keys(todo)[0] != todoToRemove;
     })
-    console.log(project.todos);
 }
 
-// function moveTodoUp(id, todo) {
-//     const project = getProjectByID(id);
-//     const index = project.todos.indexOf(todo);
-//     if (index != 0) {
-//         project.todos.splice(index, 1);
-//         project.todos.splice(index - 1, 0, todo);
-//     }
-// }
+function moveTodoUp(id, index) {
+    const project = getProjectByID(id);
+    const todo = project.todos[index];
+    if (index != 0) {
+        project.todos.splice(index, 1);
+        project.todos.splice(index - 1, 0, todo);
+    }
+}
+
+function moveTodoDown(id, index) {
+    const project = getProjectByID(id);
+    const todo = project.todos[index];
+    if (index != project.todos.length - 1) {
+        project.todos.splice(index, 1);
+        project.todos.splice(index + 1, 0, todo);
+    }
+}
 
 function getLandingContent() {
     const emptyProject = new Project('Blank project', "12/31/2023", 'Blank description', 0, '');
