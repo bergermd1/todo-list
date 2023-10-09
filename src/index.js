@@ -1,12 +1,14 @@
 import './style.css';
-import {getLandingContent, addProject, getProjectNodes,
+import {setLandingContent, addProject, getProjectNodes,
         removeProject, getProjectByID, addTodo, removeTodo,
         moveTodoUp, moveTodoDown, sortProjectsByPriority, sortProjectsByDate,
-        getSortOrder} from './allProjects.js';
+        getSortOrder,
+        flipSortOrder} from './allProjects.js';
 import {getSingleProjectDivs} from './project.js';
 
 window.onload = () => {
     document.querySelector('#content').appendChild(getAddProjectButton());
+    document.querySelector('#content').appendChild(getSortButton());
     
     const projectsContainer = document.createElement('div');
     projectsContainer.classList.add('projects-container');
@@ -15,12 +17,13 @@ window.onload = () => {
     projectContainer.classList.add('project-container');
     document.querySelector('#content').appendChild(projectContainer);
 
-    const landingContent = getLandingContent()
+    setLandingContent()
     displayProjects();
 }
 
 function displayProjects() {
     clearContent();
+    console.log(getSortOrder());
     getSortOrder() ? sortProjectsByDate() : sortProjectsByPriority();
     const projectNodes = getProjectNodes();
     projectNodes.forEach(node => {
@@ -113,10 +116,6 @@ function restrikeItems(id) {
     });
 }
 
-function displayTodos() {
-    const todoDivs = [...document.querySelector('.check-list').children];
-}
-
 function clearContent() {
     document.querySelector('.projects-container').innerHTML = '';
     document.querySelector('.project-container').innerHTML = '';
@@ -137,5 +136,19 @@ function getAddProjectButton() {
         displayProjects();
     })
     return button;
+}
+
+function getSortButton() {
+    const sortBtn = document.createElement('label');
+    sortBtn.classList.add('switch');
+    sortBtn.innerHTML = `
+        <input type="checkbox">
+        <span class="slider round"></span>
+    `;
+    sortBtn.addEventListener('mousedown', () => {
+        flipSortOrder();
+        displayProjects();
+    })
+    return sortBtn;
 }
 
