@@ -1,5 +1,8 @@
 import './style.css';
-import {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID, addTodo, removeTodo, moveTodoUp, moveTodoDown} from './allProjects.js';
+import {getLandingContent, addProject, getProjectNodes,
+        removeProject, getProjectByID, addTodo, removeTodo,
+        moveTodoUp, moveTodoDown, sortProjectsByPriority, sortProjectsByDate,
+        getSortOrder} from './allProjects.js';
 import {getSingleProjectDivs} from './project.js';
 
 window.onload = () => {
@@ -18,6 +21,7 @@ window.onload = () => {
 
 function displayProjects() {
     clearContent();
+    getSortOrder() ? sortProjectsByDate() : sortProjectsByPriority();
     const projectNodes = getProjectNodes();
     projectNodes.forEach(node => {
         document.querySelector('.projects-container').appendChild(node);
@@ -126,7 +130,7 @@ function getAddProjectButton() {
         const info = {};
         info.title = window.prompt("Title?");
         info.description = window.prompt("Description?");
-        info.dueDate = window.prompt("Due date?");
+        info.dueDate = window.prompt("Due date? (DD/MM/YYYY");
         info.priority = window.prompt("Priority?");
         info.notes = window.prompt("Notes?");
         const project = addProject(info);

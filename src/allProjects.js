@@ -1,17 +1,24 @@
-export {getLandingContent, addProject, getProjectNodes, removeProject, getProjectByID, addTodo, removeTodo, moveTodoUp, moveTodoDown};
+export {getLandingContent, addProject, getProjectNodes,
+        removeProject, getProjectByID, addTodo, removeTodo,
+        moveTodoUp, moveTodoDown, sortProjectsByPriority, sortProjectsByDate,
+        getSortOrder};
+
+import {compareAsc, compareDesc, isEqual} from 'date-fns';
 
 const projects = [];
 let currentID = 0;
-//const sortOrder = 0;
+const sortOrder = 1;
 
 
 function Project(title, dueDate, description, priority, notes) {
     const id = currentID;
     currentID++;
+    let dueDateSplit = dueDate.split('/');
+    let formattedDueDate = new Date(dueDateSplit[2], dueDateSplit[1]-1,dueDateSplit[0]);
     return {
         id,
         title,
-        dueDate,
+        dueDate: formattedDueDate,
         description,
         priority,
         notes,
@@ -56,7 +63,23 @@ function moveTodoDown(id, index) {
 
 function getLandingContent() {
     const emptyProject = new Project('Blank project', "12/31/2023", 'Blank description', 0, '');
+    /////////////////////////////
+    /////////////////////////////
+    /////////////////////////////
+    const emptyProject3 = new Project('Blank project 3', "31/12/2023", 'Blank description', 2, '');
+    const emptyProject4 = new Project('Blank project 4', "31/12/2023", 'Blank description', 3, '');
+    const emptyProject2 = new Project('Blank project 2', "29/12/2023", 'Blank description', 3, '');
+    const emptyProject5 = new Project('Blank project 5', "29/12/2023", 'Blank description', 2, '');
+    const emptyProject1 = new Project('Blank project 1', "27/12/2023", 'Blank description', 2, '');
+    /////////////////////////////
+    /////////////////////////////
+    /////////////////////////////
     projects.push(emptyProject);
+    projects.push(emptyProject3);
+    projects.push(emptyProject4);
+    projects.push(emptyProject2);
+    projects.push(emptyProject5);
+    projects.push(emptyProject1);
     return getDiv(emptyProject);
 }
 
@@ -101,4 +124,28 @@ function getDiv(project) {
     projectDiv.appendChild(removeBtn);
 
     return projectDiv
+}
+
+function getSortOrder() {
+    return sortOrder;
+}
+
+function sortProjectsByPriority() {
+    projects.sort((project1, project2) => {
+        if (project1.priority != project2.priority) {
+            return project1.priority - project2.priority;
+        } else {
+            return compareAsc(project1.dueDate, project2.dueDate);
+        }
+    })
+}
+
+function sortProjectsByDate() {
+    projects.sort((project1, project2) => {
+        if (!isEqual(project1.dueDate, project2.dueDate)) {
+            return compareAsc(project1.dueDate, project2.dueDate);
+        } else {
+            return project1.priority - project2.priority;
+        }
+    })
 }
